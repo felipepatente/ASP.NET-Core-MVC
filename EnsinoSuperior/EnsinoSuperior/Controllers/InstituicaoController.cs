@@ -79,5 +79,10 @@ namespace EnsinoSuperior.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult Details(long id)
+        {
+            return View(instituicoes.Where(i => i.InstituicaoID == id).First());
+        }
     }
 }
