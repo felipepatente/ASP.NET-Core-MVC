@@ -48,5 +48,11 @@ namespace EnsinoSuperior.Controllers
         {
             return View(instituicoes);
         }
+
+        //GET: Create
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }
