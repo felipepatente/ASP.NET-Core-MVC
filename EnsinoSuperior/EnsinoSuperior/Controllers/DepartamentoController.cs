@@ -34,10 +34,11 @@ namespace EnsinoSuperior.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome")] Departamento departamento)
+        public async Task<IActionResult> Create([Bind("InstituicaoID,Nome")] Departamento departamento)
         {
             try
             {
+                var id = departamento.InstituicaoID;
                 _context.Add(departamento);
                 await _context.SaveChangesAsync();
 
