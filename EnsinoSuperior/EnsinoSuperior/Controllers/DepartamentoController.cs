@@ -1,6 +1,7 @@
 ﻿using EnsinoSuperior.Data;
 using EnsinoSuperior.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -67,12 +68,15 @@ namespace EnsinoSuperior.Controllers
                 return NotFound();
             }
 
+            ViewBag.Instituicoes 
+                = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
+
             return View(departamento);
         }  
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoID,Nome")]Departamento departamento)
+        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoID,Nome,InstituicaoID")]Departamento departamento)
         {
             if (id != departamento.DepartamentoID)
             {
@@ -100,6 +104,9 @@ namespace EnsinoSuperior.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
+
             return View(departamento);
         }
 
