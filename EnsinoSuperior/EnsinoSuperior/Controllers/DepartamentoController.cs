@@ -141,6 +141,7 @@ namespace EnsinoSuperior.Controllers
             }
 
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            _context.Instituicoes.Where(i => i.InstituicaoID == departamento.InstituicaoID).Load();
 
             if (departamento == null)
             {
