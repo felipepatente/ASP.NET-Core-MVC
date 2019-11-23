@@ -22,8 +22,13 @@ namespace EnsinoSuperior.Controllers
             return View(await _context.Departamentos.Include(i => i.Instituicao).OrderBy(c => c.Nome).ToListAsync());
         }
 
+        //GET:Departamento/Create
         public IActionResult Create()
         {
+            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            instituicoes.Insert(0, new Instituicao() { InstituicaoID = 0, Nome = "Selecione a instituição" });
+            ViewBag.Instituicoes = instituicoes;
+
             return View();
         }
 
