@@ -17,10 +17,10 @@ namespace EnsinoSuperior.Data
             IESDbInitializer.Initialize(this);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Departamento>().ToTable("Departamento");
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<Departamento>().ToTable("Departamento");
+        //}
     }
 }
