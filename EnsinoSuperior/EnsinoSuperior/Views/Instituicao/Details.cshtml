@@ -13,30 +13,33 @@
 </head>
 <body>
 
-<div>
-    <h4>Instituicao</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.InstituicaoID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.InstituicaoID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Endereco)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Endereco)
-        </dd>
-    </dl>
-</div>
+    <div>
+        <h4>Instituicao</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.InstituicaoID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.InstituicaoID)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nome)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Endereco)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Endereco)
+            </dd>
+        </dl>
+        <div class="col-3">
+            @Html.Partial("~/Views/Instituicao/_ComDepartamentos.cshtml", Model.Departamentos.ToList())
+        </div>
+    </div>
 <div>
     @Html.ActionLink("Editar", "Edit", new { id = Model.InstituicaoID }) |
     <a asp-action="Index">Back to List</a>

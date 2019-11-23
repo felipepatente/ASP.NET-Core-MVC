@@ -56,7 +56,11 @@ namespace EnsinoSuperior.Controllers
 
         public async Task<IActionResult> Details(long id)
         {
-            return View(await _context.Instituicoes.Where(i => i.InstituicaoID == id).FirstAsync());
+
+            var instituicao 
+                = await _context.Instituicoes.Include(d => d.Departamentos).SingleOrDefaultAsync(m => m.InstituicaoID == id);
+
+            return View(instituicao);
         }
 
         public async Task<ActionResult> Delete(long id)
