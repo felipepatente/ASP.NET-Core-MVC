@@ -12,7 +12,7 @@ namespace EnsinoSuperior.Models
         public string Nome { get; set; }
 
         [Display(Name = "Instituição")]
-        public long? InstituicaoID { get; set; }
+        public long? InstituicaoID { get; set; }        
         public Instituicao Instituicao { get; set; }
     }
 }
