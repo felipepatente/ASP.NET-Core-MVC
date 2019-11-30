@@ -1,9 +1,8 @@
 ﻿using EnsinoSuperior.Data;
-using EnsinoSuperior.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Modelo.Cadastros;
 using System.Linq;
 using System.Threading.Tasks;
 

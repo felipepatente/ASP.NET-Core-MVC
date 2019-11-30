@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EnsinoSuperior.Data;
-using EnsinoSuperior.Models;
+﻿using EnsinoSuperior.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Modelo.Cadastros;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Controllers
 {
