@@ -1,4 +1,5 @@
 ﻿using EnsinoSuperior.Data;
+using EnsinoSuperior.Data.DAL.Cadastros;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +12,17 @@ namespace EnsinoSuperior.Controllers
     public class DepartamentoController : Controller
     {
         private readonly IESContext _context;
+        private readonly DepartamentoDAL departamentoDAL;
 
         public DepartamentoController(IESContext context)
         {
             _context = context;
+            departamentoDAL = new DepartamentoDAL(_context);
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departamentos.Include(i => i.Instituicao).OrderBy(c => c.Nome).ToListAsync());
+            return View(await departamentoDAL.ObterDepartamentosClassificadosPorNome().ToListAsync());
         }
 
         //GET:Departamento/Create
@@ -38,10 +41,8 @@ namespace EnsinoSuperior.Controllers
         {
             try
             {
-                var id = departamento.InstituicaoID;
-                _context.Add(departamento);
-                await _context.SaveChangesAsync();
-
+                await departamentoDAL.GravarDepartamento(departamento);
+                
                 return RedirectToAction(nameof(Index));
             }
             catch (DbUpdateException)
@@ -60,7 +61,7 @@ namespace EnsinoSuperior.Controllers
                 return NotFound();
             }
 
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            var departamento = await departamentoDAL.ObterDepartamentoPorId((long)id);
 
             if (departamento == null)
             {
@@ -86,8 +87,7 @@ namespace EnsinoSuperior.Controllers
             {
                 try
                 {
-                    _context.Update(departamento);
-                    await _context.SaveChangesAsync();
+                    await departamentoDAL.GravarDepartamento(departamento);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,9 +120,8 @@ namespace EnsinoSuperior.Controllers
             {
                 return NotFound();
             }
-
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Instituicoes.Where(i => i.InstituicaoID == departamento.InstituicaoID).Load();
+            
+            var departamento = await departamentoDAL.ObterDepartamentoPorId((long) id);
 
             if (departamento == null)
             {
@@ -139,8 +138,7 @@ namespace EnsinoSuperior.Controllers
                 return NotFound();
             }
 
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Instituicoes.Where(i => i.InstituicaoID == departamento.InstituicaoID).Load();
+            var departamento = await departamentoDAL.ObterDepartamentoPorId((long)id);
 
             if (departamento == null)
             {
@@ -155,10 +153,9 @@ namespace EnsinoSuperior.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Departamentos.Remove(departamento);
-            await _context.SaveChangesAsync();
-
+            var departamento = await departamentoDAL.ObterDepartamentoPorId((long)id);
+            await departamentoDAL.EliminarDepartamentoPorId((long)departamento.DepartamentoID);
+            
             return RedirectToAction(nameof(Index));
         }
     }
