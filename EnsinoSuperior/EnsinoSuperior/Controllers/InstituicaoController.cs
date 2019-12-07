@@ -34,7 +34,7 @@ namespace EnsinoSuperior.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Instituicao instituicao)
         {
-            _context.Add(instituicao);
+            _context.Add(instituicao); 
             await _context.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
