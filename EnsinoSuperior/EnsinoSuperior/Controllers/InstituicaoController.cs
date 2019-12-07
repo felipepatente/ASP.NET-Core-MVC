@@ -1,4 +1,5 @@
 ﻿using EnsinoSuperior.Data;
+using EnsinoSuperior.Data.DAL.Cadastros;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
@@ -10,15 +11,17 @@ namespace EnsinoSuperior.Controllers
     public class InstituicaoController : Controller
     {
         private readonly IESContext _context;
+        private readonly InstituicaoDAL instituicaoDAL;
 
         public InstituicaoController(IESContext context)
         {
             _context = context;
+            instituicaoDAL = new InstituicaoDAL(context);
         }
 
         public async Task<IActionResult> Index()
         {            
-            return View(await _context.Instituicoes.OrderBy(c => c.Nome).ToListAsync());
+            return View(await instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToListAsync());
         }
 
         //GET: Create
