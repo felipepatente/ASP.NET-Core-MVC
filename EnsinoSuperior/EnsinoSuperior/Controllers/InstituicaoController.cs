@@ -34,15 +34,15 @@ namespace EnsinoSuperior.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Instituicao instituicao)
         {
-            _context.Add(instituicao); 
+            _context.Add(instituicao);
             await _context.SaveChangesAsync();
             
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<ActionResult> Edit(long id)
+        public async Task<IActionResult> Edit(long id)
         {
-            return View(await _context.Instituicoes.Where(i => i.InstituicaoID == id).FirstAsync());
+            return await ObterVisaoInstituicaoPorId(id);
         }
 
         [HttpPost]
@@ -54,19 +54,15 @@ namespace EnsinoSuperior.Controllers
             
             return RedirectToAction(nameof(Index));
         }
-
-        public async Task<IActionResult> Details(long id)
+        
+        public async Task<IActionResult> Details(long? id)
         {
-
-            var instituicao 
-                = await _context.Instituicoes.Include(d => d.Departamentos).SingleOrDefaultAsync(m => m.InstituicaoID == id);
-
-            return View(instituicao);
+            return await ObterVisaoInstituicaoPorId(id);
         }
 
-        public async Task<ActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            return View(await _context.Instituicoes.Where(i => i.InstituicaoID == id).FirstAsync());
+            return await ObterVisaoInstituicaoPorId(id);
         }
 
         [HttpPost]
@@ -77,6 +73,22 @@ namespace EnsinoSuperior.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<IActionResult> ObterVisaoInstituicaoPorId(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instituicao = await instituicaoDAL.ObterInstituicaoPorId((long)id);
+            if (instituicao == null)
+            {
+                return NotFound();
+            }
+
+            return View(instituicao);
         }
     }
 }
