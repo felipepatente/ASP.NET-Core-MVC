@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Modelo.Cadastros
 {
@@ -10,5 +11,7 @@ namespace Modelo.Cadastros
         [Display(Name = "Instituição")]
         public long? InstituicaoID { get; set; }        
         public Instituicao Instituicao { get; set; }
+
+        public virtual ICollection<Curso> Cursos { get; set; }
     }
 }
