@@ -12,14 +12,14 @@ namespace EnsinoSuperior.Data
 
         public IESContext(DbContextOptions<IESContext> options): base(options)
         {
-            //IESDbInitializer.Initialize(this);
+            IESDbInitializer.Initialize(this);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Departamento>().ToTable("Departamento");
+            modelBuilder.Entity<Departamento>().ToTable("Departamento");
 
             modelBuilder.Entity<CursoDisciplina>()
                 .HasKey(cd => new { cd.CursoID, cd.DisciplinaID });
@@ -32,7 +32,7 @@ namespace EnsinoSuperior.Data
             modelBuilder.Entity<CursoDisciplina>()
                 .HasOne(d => d.Disciplina)
                 .WithMany(cd => cd.CursosDisciplinas)
-                .HasForeignKey(d => d.DisciplinaID);            
+                .HasForeignKey(d => d.DisciplinaID);
         }
     }
 }
