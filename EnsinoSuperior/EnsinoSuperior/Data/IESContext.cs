@@ -14,7 +14,7 @@ namespace EnsinoSuperior.Data
 
         public IESContext(DbContextOptions<IESContext> options): base(options)
         {
-            IESDbInitializer.Initialize(this);
+            //IESDbInitializer.Initialize(this);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
