@@ -1,0 +1,36 @@
+﻿@model Modelo.Discente.Academico
+
+@{
+    Layout = "_LayoutIES";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Academico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistroAcademico)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RegistroAcademico)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nascimento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nascimento)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AcademicoID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
