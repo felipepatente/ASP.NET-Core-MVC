@@ -13,6 +13,7 @@ namespace EnsinoSuperior.Data
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Disciplina> Disciplinas { get; set; }
         public DbSet<Academico> Academicos { get; set; }
+        public DbSet<RegistrarNovoUsuarioViewModel> Usuario { get; set; }
 
         public IESContext(DbContextOptions<IESContext> options): base(options)
         {
@@ -23,7 +24,7 @@ namespace EnsinoSuperior.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Departamento>().ToTable("Departamento");
+            //modelBuilder.Entity<Departamento>().ToTable("Departamento");
 
             modelBuilder.Entity<CursoDisciplina>()
                 .HasKey(cd => new { cd.CursoID, cd.DisciplinaID });
