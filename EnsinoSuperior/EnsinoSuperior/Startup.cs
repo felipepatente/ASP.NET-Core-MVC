@@ -42,7 +42,7 @@ namespace EnsinoSuperior
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Infra/Acessar";
-                options.AccessDeniedPath = "/Infra/AcessoNegado";
+                options.AccessDeniedPath = "/Infra/AcessoNegado";                
             });
 
             services.AddDbContext<IESContext>
