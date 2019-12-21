@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EnsinoSuperior.Models.Infra;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
 using Modelo.Discente;
 
 namespace EnsinoSuperior.Data
 {
-    public class IESContext: DbContext
+    public class IESContext: IdentityDbContext<UsuarioDaAplicacao>
     {
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<Instituicao> Instituicoes { get; set; }

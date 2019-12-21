@@ -1,5 +1,6 @@
 ﻿using EnsinoSuperior.Data;
 using EnsinoSuperior.Data.DAL.Cadastros;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Controllers
 {
+    [Authorize]
     public class InstituicaoController : Controller
     {
         private readonly IESContext _context;
