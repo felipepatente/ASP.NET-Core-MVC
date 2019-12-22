@@ -49,7 +49,10 @@
                 </div>
             </div>
             <div class="col-3">
-                <img class="img-thumbnail" src="@Url.Action("GetFoto", "Academico", new { id = Model.AcademicoID })" style="display:block; margin-left:auto;margin-right:auto;" />
+                <img class="img-thumbnail" src="@Url.Action("GetFoto", "Academico", new { id = Model.AcademicoID })" style="display:block; margin-left:auto;margin-right:auto;" />                
+            </div>
+            <div class="col-3">                
+                @Html.ActionLink("Download", "DownloadFoto", "Academico", new { id = Model.AcademicoID }, null)
             </div>
         </div>
     </div>
