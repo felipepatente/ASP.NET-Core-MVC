@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Modelo.Discente
 {
@@ -8,6 +9,12 @@ namespace Modelo.Discente
     {
         [DisplayName("Id")]
         public long? AcademicoID { get; set; }
+
+        public string FotoMimeType { get; set; } 
+        public byte[] Foto { get; set; }
+
+        //[NotMapped]
+        //public IFormFile formFile { get; set; }
 
         [StringLength(10, MinimumLength = 10)]
         [RegularExpression("([0-9]{10})")]

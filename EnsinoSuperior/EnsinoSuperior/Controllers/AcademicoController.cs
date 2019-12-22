@@ -1,8 +1,10 @@
 ﻿using EnsinoSuperior.Data;
 using EnsinoSuperior.Data.DAL.Discente;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Discente;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Controllers
@@ -81,7 +83,7 @@ namespace EnsinoSuperior.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico)
+        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
         {
             if (id != academico.AcademicoID)
             {
@@ -92,6 +94,11 @@ namespace EnsinoSuperior.Controllers
             {
                 try
                 {
+                    var stream = new MemoryStream();
+                    await foto.CopyToAsync(stream);
+                    academico.Foto = stream.ToArray();
+                    academico.FotoMimeType = foto.ContentType;
+
                     await academicoDAL.GravarAcademico(academico);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -122,6 +129,16 @@ namespace EnsinoSuperior.Controllers
         private async Task<bool> AcademicoExists(long? id)
         {
             return await academicoDAL.ObterAcademicoPorId((long)id) != null;
+        }
+
+        public async Task<FileContentResult> GetFoto(long id)
+        {
+            Academico academico = await academicoDAL.ObterAcademicoPorId(id);
+            if (academico != null)
+            {
+                return File(academico.Foto, academico.FotoMimeType);
+            }
+            return null;
         }
     }
 }
