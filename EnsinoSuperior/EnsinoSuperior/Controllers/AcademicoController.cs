@@ -87,7 +87,12 @@ namespace EnsinoSuperior.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
+        public async Task<IActionResult> Edit(
+            long? id, 
+            [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, 
+            IFormFile foto,
+            string chkRemoverFoto
+            )
         {
             if (id != academico.AcademicoID)
             {
@@ -96,13 +101,21 @@ namespace EnsinoSuperior.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                var stream = new MemoryStream();
+
+                if (chkRemoverFoto != null)
                 {
-                    var stream = new MemoryStream();
+                    academico.Foto = null;
+                }
+                else
+                {                    
                     await foto.CopyToAsync(stream);
                     academico.Foto = stream.ToArray();
                     academico.FotoMimeType = foto.ContentType;
+                }
 
+                try
+                {                    
                     await academicoDAL.GravarAcademico(academico);
                 }
                 catch (DbUpdateConcurrencyException)
