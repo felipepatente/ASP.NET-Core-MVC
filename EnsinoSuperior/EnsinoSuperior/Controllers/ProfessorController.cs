@@ -109,13 +109,17 @@ namespace EnsinoSuperior.Controllers
 
         public IActionResult VerificarUltimosRegistros()
         {
-            List<CursoProfessor> cursosProfessor = new List<CursoProfessor>();
+            List<CursoProfessor> cursosProfessorComID = new List<CursoProfessor>();
             string cursosProfessoresSession = HttpContext.Session.GetString("cursosProfessores");
             if (cursosProfessoresSession != null)
             {
-                cursosProfessor = JsonConvert.DeserializeObject<List<CursoProfessor>>(cursosProfessoresSession);
+                cursosProfessorComID = JsonConvert.DeserializeObject<List<CursoProfessor>>(cursosProfessoresSession);
             }
-            return View(cursosProfessor);
+
+            CursosProfessorDAL cursosProfessorDAL = new CursosProfessorDAL(_context);
+            IList<CursoProfessor> cursosProfessorComNome = cursosProfessorDAL.TrazerCursosESeusProfessores(cursosProfessorComID);
+            
+            return View(cursosProfessorComNome);
         }
     }
 }

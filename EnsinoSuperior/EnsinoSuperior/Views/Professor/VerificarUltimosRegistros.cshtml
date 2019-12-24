@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Modelo.Discente.CursoProfessor>
 
 @{
-    Layout = null;
+    Layout = "_LayoutIES";
 }
 
 <!DOCTYPE html>
@@ -28,10 +28,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CursoID)
+                        @Html.DisplayFor(modelItem => item.Curso.Nome)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProfessorID)
+                        @Html.DisplayFor(modelItem => item.Professor.Nome)
                     </td>
                 </tr>
             }
