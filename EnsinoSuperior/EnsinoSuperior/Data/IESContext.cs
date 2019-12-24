@@ -14,7 +14,8 @@ namespace EnsinoSuperior.Data
         public DbSet<Disciplina> Disciplinas { get; set; }
         public DbSet<Academico> Academicos { get; set; }
         public DbSet<RegistrarNovoUsuarioViewModel> Usuario { get; set; }
-        
+        public DbSet<Professor> Professor { get; set; }
+
         public IESContext(DbContextOptions<IESContext> options): base(options)
         {
             //IESDbInitializer.Initialize(this);
