@@ -12,7 +12,6 @@ namespace Modelo.Cadastros
         public Departamento Departamento { get; set; }
 
         public virtual ICollection<CursoDisciplina> CursosDisciplinas { get; set; }
-
         public virtual ICollection<CursoProfessor> CursosProfessores { get; set; }
     }
 }
