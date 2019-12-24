@@ -48,6 +48,9 @@ namespace EnsinoSuperior
             services.AddDbContext<IESContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("IESConnection")));
 
+            services.AddSession();
+            services.AddDistributedMemoryCache();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -69,6 +72,7 @@ namespace EnsinoSuperior
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
