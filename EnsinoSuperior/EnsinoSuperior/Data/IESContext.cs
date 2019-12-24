@@ -14,7 +14,7 @@ namespace EnsinoSuperior.Data
         public DbSet<Disciplina> Disciplinas { get; set; }
         public DbSet<Academico> Academicos { get; set; }
         public DbSet<RegistrarNovoUsuarioViewModel> Usuario { get; set; }
-
+        
         public IESContext(DbContextOptions<IESContext> options): base(options)
         {
             //IESDbInitializer.Initialize(this);
@@ -24,7 +24,7 @@ namespace EnsinoSuperior.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Departamento>().ToTable("Departamento");
+            modelBuilder.Entity<Departamento>().ToTable("Departamento");
 
             modelBuilder.Entity<CursoDisciplina>()
                 .HasKey(cd => new { cd.CursoID, cd.DisciplinaID });
@@ -38,6 +38,16 @@ namespace EnsinoSuperior.Data
                 .HasOne(d => d.Disciplina)
                 .WithMany(cd => cd.CursosDisciplinas)
                 .HasForeignKey(d => d.DisciplinaID);
+
+            modelBuilder.Entity<CursoProfessor>()
+                .HasOne(c => c.Curso)
+                .WithMany(cd => cd.CursosProfessores)
+                .HasForeignKey(c => c.CursoID);
+
+            modelBuilder.Entity<CursoProfessor>()
+                .HasOne(d => d.Professor)
+                .WithMany(cd => cd.CursosProfessores)
+                .HasForeignKey(d => d.ProfessorID);
         }
     }
 }
