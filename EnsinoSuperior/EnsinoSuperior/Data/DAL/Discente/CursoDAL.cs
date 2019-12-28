@@ -4,7 +4,6 @@ using Modelo.Discente;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Data.DAL.Discente
 {
@@ -25,6 +24,14 @@ namespace EnsinoSuperior.Data.DAL.Discente
             _context.SaveChanges();
         }
 
+        public Curso ObterCursoPorId(long? id)
+        {
+            var curso = _context.Cursos.SingleOrDefault(c => c.CursoID == id);
+            _context.Departamentos.Where(d => d.DepartamentoID == curso.DepartamentoID).Load();
+
+            return curso;
+        }
+
         public IQueryable<Professor> ObterProfessoresForaDoCurso(long cursoID)
         {
             var curso = _context.Cursos.Where(c => c.CursoID == cursoID).Include(cp => cp.CursosProfessores).First();
@@ -38,6 +45,29 @@ namespace EnsinoSuperior.Data.DAL.Discente
             var cursos = _context.Cursos.Where(c => c.DepartamentoID == departamentoID);
 
             return cursos;
+        }
+
+        public IQueryable<Curso> GetCursos()
+        {
+            return _context.Cursos.Include(d => d.Departamento).OrderBy(c => c.Nome);
+        }
+
+        public void AdicionarCurso(Curso curso)
+        {
+            _context.Cursos.Add(curso);
+            _context.SaveChanges();
+        }
+
+        public void AtualizarCurso(Curso curso)
+        {
+            _context.Cursos.Update(curso);
+            _context.SaveChanges();
+        }
+
+        public void RemoverCurso(Curso curso)
+        {
+            _context.Cursos.Remove(curso);
+            _context.SaveChanges();            
         }
     }
 }
