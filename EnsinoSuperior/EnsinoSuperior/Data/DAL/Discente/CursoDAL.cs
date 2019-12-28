@@ -4,6 +4,7 @@ using Modelo.Discente;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Data.DAL.Discente
 {
@@ -24,9 +25,9 @@ namespace EnsinoSuperior.Data.DAL.Discente
             _context.SaveChanges();
         }
 
-        public Curso ObterCursoPorId(long? id)
+        public async Task<Curso> ObterCursoPorId(long? id)
         {
-            var curso = _context.Cursos.SingleOrDefault(c => c.CursoID == id);
+            var curso = await _context.Cursos.SingleOrDefaultAsync(c => c.CursoID == id);
             _context.Departamentos.Where(d => d.DepartamentoID == curso.DepartamentoID).Load();
 
             return curso;
@@ -47,7 +48,7 @@ namespace EnsinoSuperior.Data.DAL.Discente
             return cursos;
         }
 
-        public IQueryable<Curso> GetCursos()
+        public IQueryable<Curso> ObterCursosClassificadosPorNome()
         {
             return _context.Cursos.Include(d => d.Departamento).OrderBy(c => c.Nome);
         }
@@ -58,16 +59,20 @@ namespace EnsinoSuperior.Data.DAL.Discente
             _context.SaveChanges();
         }
 
-        public void AtualizarCurso(Curso curso)
+        public async Task<Curso> AtualizarCurso(Curso curso)
         {
             _context.Cursos.Update(curso);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            return curso;
         }
 
-        public void RemoverCurso(Curso curso)
+        public async Task<Curso> RemoverCurso(Curso curso)
         {
             _context.Cursos.Remove(curso);
-            _context.SaveChanges();            
+            await _context.SaveChangesAsync();
+
+            return curso;
         }
     }
 }

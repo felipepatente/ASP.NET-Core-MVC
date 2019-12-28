@@ -3,9 +3,11 @@ using EnsinoSuperior.Data.DAL.Cadastros;
 using EnsinoSuperior.Data.DAL.Discente;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EnsinoSuperior.Controllers
 {
@@ -22,9 +24,9 @@ namespace EnsinoSuperior.Controllers
             cursoDAL = new CursoDAL(_context);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {            
-            var cursos = cursoDAL.GetCursos();
+            var cursos = await cursoDAL.ObterCursosClassificadosPorNome().ToListAsync();
 
             return View(cursos);
         }
@@ -44,41 +46,41 @@ namespace EnsinoSuperior.Controllers
             return RedirectToAction(nameof(Index));
         }
         
-        public IActionResult Edit(long? id)
+        public async Task<IActionResult> Edit(long? id)
         {
-            var curso = cursoDAL.ObterCursoPorId(id);
+            var curso = await cursoDAL.ObterCursoPorId(id);
             ViewBag.Departamentos = new SelectList(_context.Departamentos.OrderBy(d => d.Nome),"DepartamentoID","Nome", curso.CursoID);
 
             return View(curso);
         }
 
         [HttpPost]
-        public IActionResult Edit(Curso curso)
+        public async Task<IActionResult> Edit(Curso curso)
         {
-            cursoDAL.AtualizarCurso(curso);
+            await cursoDAL.AtualizarCurso(curso);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(long? id)
+        public async Task<IActionResult> Details(long? id)
         {
-            var curso = cursoDAL.ObterCursoPorId(id);
+            var curso = await cursoDAL.ObterCursoPorId(id);
 
             return View(curso);
         }
 
-        public IActionResult Delete(long? id)
+        public async Task<IActionResult> Delete(long? id)
         {
-            var curso = cursoDAL.ObterCursoPorId(id);
+            var curso = await cursoDAL.ObterCursoPorId(id);
 
             return View(curso);
         }
 
         [HttpPost]
-        public IActionResult Delete(Curso cursoASerRemovido)
+        public async Task<IActionResult> Delete(Curso cursoASerRemovido)
         {
-            var curso = cursoDAL.ObterCursoPorId(cursoASerRemovido.CursoID);
-            cursoDAL.RemoverCurso(curso);
+            var curso = await cursoDAL.ObterCursoPorId(cursoASerRemovido.CursoID);
+            await cursoDAL.RemoverCurso(curso);
 
             return RedirectToAction(nameof(Index));
         }
