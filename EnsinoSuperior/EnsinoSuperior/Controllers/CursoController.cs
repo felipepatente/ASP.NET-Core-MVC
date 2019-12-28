@@ -39,16 +39,37 @@ namespace EnsinoSuperior.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Curso curso)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Curso curso)
         {
-            cursoDAL.AdicionarCurso(curso);
+            try
+            {
+                await cursoDAL.AdicionarCurso(curso);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Não foi possível inserir dados.");
+            }
+
+            return View(curso);
         }
         
         public async Task<IActionResult> Edit(long? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var curso = await cursoDAL.ObterCursoPorId(id);
+
+            if (curso == null)
+            {
+                return NotFound();
+            }
+
             ViewBag.Departamentos = new SelectList(_context.Departamentos.OrderBy(d => d.Nome),"DepartamentoID","Nome", curso.CursoID);
 
             return View(curso);
@@ -64,14 +85,34 @@ namespace EnsinoSuperior.Controllers
 
         public async Task<IActionResult> Details(long? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var curso = await cursoDAL.ObterCursoPorId(id);
+
+            if (curso == null)
+            {
+                return NotFound();
+            }
 
             return View(curso);
         }
 
         public async Task<IActionResult> Delete(long? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var curso = await cursoDAL.ObterCursoPorId(id);
+
+            if (curso == null)
+            {
+                return NotFound();
+            }
 
             return View(curso);
         }

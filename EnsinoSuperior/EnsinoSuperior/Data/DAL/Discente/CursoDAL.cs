@@ -53,10 +53,12 @@ namespace EnsinoSuperior.Data.DAL.Discente
             return _context.Cursos.Include(d => d.Departamento).OrderBy(c => c.Nome);
         }
 
-        public void AdicionarCurso(Curso curso)
+        public async Task<Curso> AdicionarCurso(Curso curso)
         {
             _context.Cursos.Add(curso);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            return curso;
         }
 
         public async Task<Curso> AtualizarCurso(Curso curso)
