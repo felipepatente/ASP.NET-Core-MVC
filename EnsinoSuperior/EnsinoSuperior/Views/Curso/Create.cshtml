@@ -15,12 +15,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
+                <input asp-for="Nome" id="nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DepartamentoID" class="control-label"></label>
-                <select asp-for="DepartamentoID" class ="form-control" asp-items="@(new SelectList(@ViewBag.Departamentos, "DepartamentoID", "Nome"))"></select>
+                <select asp-for="DepartamentoID" id="segmento" class ="form-control" asp-items="@(new SelectList(@ViewBag.Departamentos, "DepartamentoID", "Nome"))"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -28,6 +28,25 @@
         </form>
     </div>
 </div>
+
+<script>
+    window.addEventListener("load", function () {
+
+        var segmento = document.getElementById("segmento");
+
+        segmento.addEventListener("mouseout", function (event) {
+
+            var segmento = document.getElementById("segmento").value;
+
+            if (segmento == "1") {
+                document.getElementById("nome").disabled = true;
+            } else {
+                document.getElementById("nome").disabled = false;
+            }
+
+        });
+    })
+</script>
 
 <div>
     <a asp-action="Index">Back to List</a>
